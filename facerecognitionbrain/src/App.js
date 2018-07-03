@@ -6,7 +6,6 @@ import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
-import 'tachyons';
 import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import './App.css';
@@ -19,16 +18,16 @@ const app = new Clarifai.App({
 
 
 const particlesOptions = {
-    particles: {
-      number: {
-        value: 80,
-        density: {
-          enable: true,
-          value_area: 800
-        }
+  particles: {
+    number: {
+      value: 80,
+      density: {
+        enable: true,
+        value_area: 800
       }
     }
-  } 
+  }
+} 
 
 // ########## DEFINING APP ####################
 class App extends Component {
@@ -99,14 +98,14 @@ displayFaceBox = (box) => {
         { route === 'home' 
           ? <div>
               <Logo />
-              <Rank />
+              <Rank />  
               <ImageLinkForm 
                 onInputChange={this.onInputChange}
                 onButtonSubmit={this.onButtonSubmit}
               />
-              <FaceRecognition 
-                imageUrl={imageUrl}
+              <FaceRecognition
                 box={box}
+                imageUrl={imageUrl}
               />
             </div>
             : (
