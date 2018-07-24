@@ -43,6 +43,8 @@ class App extends Component {
     }
   }
 
+//########## STATE CHANGE DEFINITIONS ####################
+
 // ########## Detects change in URL import box ###
 calculateFaceLocation = (data) => {
   const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
