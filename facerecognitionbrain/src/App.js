@@ -39,13 +39,32 @@ class App extends Component {
       imageUrl: '',
       box: {},
       route: 'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
+        email: '',
+        id: '',
+        name: '',
+        entries: 0,
+        joined: ''
+      }
     }
   }
 
 //########## STATE CHANGE DEFINITIONS ####################
 
 // ########## Detects change in URL import box ###
+
+loadUser = (data) => {
+  this.setState({user: {
+        email: data.email,
+        id: data.id,
+        name: data.name,
+        entries: data.entries,
+        joined: data.joined
+  }})
+}
+
+
 calculateFaceLocation = (data) => {
   const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
   const image = document.getElementById('inputimage');
@@ -100,7 +119,10 @@ displayFaceBox = (box) => {
         { route === 'home' 
           ? <div>
               <Logo />
-              <Rank />  
+              <Rank 
+                name={this.state.user.name}
+                entries={this.state.user.entries}
+                />  
               <ImageLinkForm 
                 onInputChange={this.onInputChange}
                 onButtonSubmit={this.onButtonSubmit}
@@ -112,8 +134,14 @@ displayFaceBox = (box) => {
             </div>
             : (
                 route === 'signin' 
-                ? <Signin onRouteChange={this.onRouteChange}/>
-                : <Register onRouteChange={this.onRouteChange}/>
+                ? <Signin 
+                    onRouteChange={this.onRouteChange}
+                    loadUser={this.loadUser}
+                    />
+                : <Register 
+                    onRouteChange={this.onRouteChange}
+                    loadUser={this.loadUser}
+                    />
               )
       }
       </div>
