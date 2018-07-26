@@ -82,10 +82,13 @@ displayFaceBox = (box) => {
   this.setState({box: box});
 }
 
-
+// Detects a link input to box, changes input state to value
+// This function can be passed as a prop to the component
   onInputChange = (event) => {
     this.setState({input: event.target.value});
   }
+
+
 // ######## Detects button click
   onButtonSubmit = () => {
     this.setState({imageUrl: this.state.input});
@@ -93,7 +96,24 @@ displayFaceBox = (box) => {
     .predict(
       Clarifai.FACE_DETECT_MODEL, 
       this.state.input)
-    .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+    .then(response => {
+      if (response) {
+        fetch('http://localhost:4000/image', {
+          method: 'put',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            id: this.state.user.id
+          })
+        })
+          .then(response => response.json())
+          .then(count => {
+            this.setState(Object.assign(this.state.user, {
+              entries: count
+            })) //object.assign allows for only updating entries
+          })
+      }
+      this.displayFaceBox(this.calculateFaceLocation(response))
+    })
     .catch(err => console.log(err));
  }  
 
