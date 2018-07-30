@@ -27,14 +27,9 @@ const particlesOptions = {
       }
     }
   }
-} 
+}
 
-// ########## DEFINING APP ####################
-class App extends Component {
-// ############ Constructs initial app state
-  constructor() {
-    super();
-    this.state = {
+const initialState = {
       input: '',
       imageUrl: '',
       box: {},
@@ -48,6 +43,13 @@ class App extends Component {
         joined: ''
       }
     }
+
+// ########## DEFINING APP ####################
+class App extends Component {
+// ############ Constructs initial app state for session
+  constructor() {
+    super();
+    this.state = initialState;
   }
 
 //########## STATE CHANGE DEFINITIONS ####################
@@ -111,6 +113,7 @@ displayFaceBox = (box) => {
               entries: count
             })) //object.assign allows for only updating entries
           })
+          .catch(console.log) //error handling
       }
       this.displayFaceBox(this.calculateFaceLocation(response))
     })
@@ -119,7 +122,7 @@ displayFaceBox = (box) => {
 
  onRouteChange = (route) => {
   if (route === 'signout') {
-    this.setState({isSignedIn: false})
+    this.setState(initialState)
   } else if ( route === 'home') {
     this.setState({isSignedIn: true})
   }
